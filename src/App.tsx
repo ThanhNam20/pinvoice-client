@@ -1,57 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { Counter } from "./pages/counter/Counter";
+import "./App.css";
+import { Button } from "antd";
+import PrivateRoute from "components/PrivateRoute";
+import PublicRoute from "components/PublicRoute";
+import Home from "pages/home/Home";
+import { Routes, Route } from "react-router-dom";
+import Login from "pages/login/Login";
+import NotFound from "components/NotFound";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  useEffect(() => {
+    console.log(process.env.REACT_APP_BASE_URL);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route
+          element={
+            <PublicRoute isAuthenticated={isAuthenticated} to="/">
+              <Login />
+            </PublicRoute>
+          }
+          path="/login"
+        />
+        <Route
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated} to="/login">
+              <Home />
+            </PrivateRoute>
+          }
+          path="/"
+        />
+        <Route element={<NotFound />} path="*" />
+      </Routes>
+    </>
   );
 }
 
