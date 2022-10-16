@@ -8,12 +8,11 @@ import Home from "pages/home/Home";
 import { Routes, Route } from "react-router-dom";
 import Login from "pages/login/Login";
 import NotFound from "components/NotFound";
+import Register from "./pages/register/Register";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  useEffect(() => {
-    console.log(process.env.REACT_APP_BASE_URL);
-  }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -25,6 +24,14 @@ function App() {
             </PublicRoute>
           }
           path="/login"
+        />
+        <Route
+          element={
+            <PublicRoute isAuthenticated={isAuthenticated} to="/">
+              <Register />
+            </PublicRoute>
+          }
+          path="/register"
         />
         <Route
           element={

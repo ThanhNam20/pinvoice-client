@@ -6,7 +6,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
+import interceptor from './interceptor';
 
+interceptor();
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
