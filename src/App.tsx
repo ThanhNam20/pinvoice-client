@@ -8,9 +8,10 @@ import { Routes, Route } from "react-router-dom";
 import Login from "pages/login/Login";
 import NotFound from "components/NotFound";
 import Register from "./pages/register/Register";
-import { userSelector } from './store/slices/userSlice';
+import { userSelector } from "./store/slices/userSlice";
 import { useAppSelector } from "store/hooks";
-import { LOCALSTORAGE_KEY } from './contants/message';
+import { LOCALSTORAGE_KEY } from "./contants/message";
+import SearchInvoice from './pages/search-invoice/SearchInvoice';
 
 function App() {
   const userSelectorData = useAppSelector(userSelector);
@@ -29,7 +30,7 @@ function App() {
       <Routes>
         <Route
           element={
-            <PublicRoute isAuthenticated={isAuthenticated} to="/home">
+            <PublicRoute isAuthenticated={isAuthenticated} to="/">
               <Login />
             </PublicRoute>
           }
@@ -37,7 +38,7 @@ function App() {
         />
         <Route
           element={
-            <PublicRoute isAuthenticated={isAuthenticated} to="/home">
+            <PublicRoute isAuthenticated={isAuthenticated} to="/">
               <Register />
             </PublicRoute>
           }
@@ -45,12 +46,21 @@ function App() {
         />
         <Route
           element={
-            <PrivateRoute isAuthenticated={isAuthenticated} to="/login">
+            <PublicRoute isAuthenticated={isAuthenticated} to="/">
               <Home />
-            </PrivateRoute>
+            </PublicRoute>
           }
-          path="/home"
-        />
+          path="/"
+        >
+          <Route
+            element={
+              <PublicRoute isAuthenticated={isAuthenticated} to="/">
+                <SearchInvoice />
+              </PublicRoute>
+            }
+            path="/search-invoice"
+          />
+        </Route>
         <Route element={<NotFound />} path="*" />
       </Routes>
     </>
