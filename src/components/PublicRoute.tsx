@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function PublicRoute(props: Props): JSX.Element {
-  const { children, isAuthenticated, to = "/" } = props;
+  const { children, isAuthenticated, to = "/home" } = props;
   const { state } = useLocation();
 
   return isAuthenticated ? (

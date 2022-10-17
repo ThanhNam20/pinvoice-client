@@ -10,9 +10,13 @@ import { userActions } from "../../store/slices/userSlice";
 import ErrorMessage from "components/ErrorMessage";
 import { registerValidation } from "./register.valdation";
 import { RegisterDto } from "../../types/RegisterDto";
+import { localStorageService } from "services/localstorage.service";
+import { LOCALSTORAGE_KEY } from "contants/message";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -34,10 +38,20 @@ const Register: React.FC = () => {
       setLoading(true);
       const registerData: any = await authService.register(registerDto);
       if (registerData) {
-        toast.success(registerData.message, {
+        const { message, data } = registerData;
+        toast.success(message, {
           position: toast.POSITION.TOP_RIGHT,
         });
-        dispatch(userActions.getUserInfo(registerData.data.user.id));
+        localStorageService.setItem(
+          LOCALSTORAGE_KEY.ACCESS_TOKEN,
+          data.tokens.access.token
+        );
+        localStorageService.setItem(
+          LOCALSTORAGE_KEY.USER_DATA,
+          JSON.stringify(data.user)
+        );
+        dispatch(userActions.getUserInfoSuccess(data.user));
+        navigate("/home");
       }
     } catch (error) {
     } finally {

@@ -10,9 +10,13 @@ import { useAppDispatch } from "store/hooks";
 import { userActions } from "../../store/slices/userSlice";
 import { signInValidation } from "./login.validation";
 import ErrorMessage from "components/ErrorMessage";
+import { localStorageService } from "services/localstorage.service";
+import { LOCALSTORAGE_KEY } from "../../contants/message";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -31,10 +35,21 @@ const Login: React.FC = () => {
       setLoading(true);
       const loginData: any = await authService.login(loginDto);
       if (loginData) {
-        toast.success(loginData.message, {
+        const { message, data } = loginData;
+        toast.success(message, {
           position: toast.POSITION.TOP_RIGHT,
         });
-        dispatch(userActions.getUserInfo(loginData.data.user.id));
+        localStorageService.setItem(
+          LOCALSTORAGE_KEY.ACCESS_TOKEN,
+          data.tokens.access.token
+        );
+
+        localStorageService.setItem(
+          LOCALSTORAGE_KEY.USER_DATA,
+          JSON.stringify(data.user)
+        );
+        dispatch(userActions.getUserInfoSuccess(data.user));
+        navigate("/home");
       }
     } catch (error) {
     } finally {

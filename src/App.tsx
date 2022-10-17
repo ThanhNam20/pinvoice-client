@@ -8,17 +8,28 @@ import { Routes, Route } from "react-router-dom";
 import Login from "pages/login/Login";
 import NotFound from "components/NotFound";
 import Register from "./pages/register/Register";
+import { userSelector } from './store/slices/userSlice';
+import { useAppSelector } from "store/hooks";
+import { LOCALSTORAGE_KEY } from './contants/message';
 
 function App() {
+  const userSelectorData = useAppSelector(userSelector);
+  const userInfo = localStorage.getItem(LOCALSTORAGE_KEY.USER_DATA);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (userInfo) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [userInfo, userSelectorData]);
 
   return (
     <>
       <Routes>
         <Route
           element={
-            <PublicRoute isAuthenticated={isAuthenticated} to="/">
+            <PublicRoute isAuthenticated={isAuthenticated} to="/home">
               <Login />
             </PublicRoute>
           }
@@ -26,7 +37,7 @@ function App() {
         />
         <Route
           element={
-            <PublicRoute isAuthenticated={isAuthenticated} to="/">
+            <PublicRoute isAuthenticated={isAuthenticated} to="/home">
               <Register />
             </PublicRoute>
           }
@@ -38,7 +49,7 @@ function App() {
               <Home />
             </PrivateRoute>
           }
-          path="/"
+          path="/home"
         />
         <Route element={<NotFound />} path="*" />
       </Routes>
