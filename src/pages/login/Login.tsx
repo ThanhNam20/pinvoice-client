@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { authService } from "../../services/auth.service";
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import { LoginDto } from "types/LoginDto";
-import { Spin } from "antd";
+import { Divider, Form, Input, Spin } from "antd";
+import { toast } from "react-toastify";
+import { ILogin } from "types/Auth";
+import { useAppDispatch } from "store/hooks";
+import { userActions } from "../../store/slices/userSlice";
+import { signInValidation } from "./login.validation";
+import ErrorMessage from "components/ErrorMessage";
 
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -13,18 +20,25 @@ const Login: React.FC = () => {
       email: "",
       password: "",
     },
+    validationSchema: signInValidation,
     onSubmit: (values: LoginDto) => {
       login(values);
     },
   });
 
-  const login = (loginDto: LoginDto) => {
+  const login = async (loginDto: LoginDto) => {
     try {
       setLoading(true);
-      // const { user, tokens } = authService.login(loginDto);
+      const loginData: any = await authService.login(loginDto);
+      if (loginData) {
+        toast.success(loginData.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        dispatch(userActions.getUserInfo(loginData.data.user.id));
+      }
     } catch (error) {
-
     } finally {
+      setLoading(false);
     }
   };
 
@@ -33,7 +47,7 @@ const Login: React.FC = () => {
       <Spin size="large" spinning={loading}>
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
           <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
-            <h1 className="text-3xl font-semibold text-center text-blue-700 underline">
+            <h1 className="text-3xl font-semibold text-center text-blue-700">
               Sign in
             </h1>
             <form onSubmit={formik.handleSubmit} className="mt-6">
@@ -44,14 +58,18 @@ const Login: React.FC = () => {
                 >
                   Email
                 </label>
-                <input
+                <Input
                   type="email"
                   id="email"
                   name="email"
                   onChange={formik.handleChange}
                   value={formik.values.email}
+                  onBlur={formik.handleBlur}
                   className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
+                {formik.touched.email && Boolean(formik.errors.email) && (
+                  <ErrorMessage message={formik.errors.email as string} />
+                )}
               </div>
               <div className="mb-2">
                 <label
@@ -60,14 +78,18 @@ const Login: React.FC = () => {
                 >
                   Password
                 </label>
-                <input
+                <Input
                   type="password"
                   id="password"
                   name="password"
                   onChange={formik.handleChange}
                   value={formik.values.password}
+                  onBlur={formik.handleBlur}
                   className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
+                {formik.touched.password && Boolean(formik.errors.password) && (
+                  <ErrorMessage message={formik.errors.password as string} />
+                )}
               </div>
               <a href="#" className="text-xs text-blue-600 hover:underline">
                 Forget Password?
@@ -82,7 +104,10 @@ const Login: React.FC = () => {
             <p className="mt-8 text-xs font-light text-center text-gray-700">
               {" "}
               Don't have an account?{" "}
-              <a href="#" className="font-medium text-blue-600 hover:underline">
+              <a
+                href="/register"
+                className="font-medium text-blue-600 hover:underline"
+              >
                 Sign up
               </a>
             </p>

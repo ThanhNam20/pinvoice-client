@@ -16,7 +16,7 @@ const login = (loginDto: LoginDto) => {
 
 const register = (registerDto: RegisterDto) => {
   const config = {
-    url: `v1/auth/login`,
+    url: `v1/auth/register`,
     method: "post",
     data: {
       ...registerDto,

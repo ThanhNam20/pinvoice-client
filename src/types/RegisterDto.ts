@@ -2,5 +2,5 @@ export interface RegisterDto {
   name: String;
   email: String;
   password: String;
-
+  rePassword?: String;
 }

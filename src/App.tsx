@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Counter } from "./pages/counter/Counter";
 import "./App.css";
 import { Button } from "antd";
 import PrivateRoute from "components/PrivateRoute";
