@@ -27,6 +27,10 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.currentUser = action.payload;
     },
+    getUserInfoSuccessWithNoAuthentication(state, action: PayloadAction<IUser>) {
+      state.isAuthenticated = false;
+      state.currentUser = action.payload;
+    },
     getUserInfoFailed(state) {
       state.isAuthenticated = false;
     },

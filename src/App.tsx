@@ -12,6 +12,8 @@ import { userSelector } from "./store/slices/userSlice";
 import { useAppSelector } from "store/hooks";
 import { LOCALSTORAGE_KEY } from "./contants/message";
 import SearchInvoice from './pages/search-invoice/SearchInvoice';
+import ProfileUser from './pages/update-profile/UpdateProfile';
+import Dashboard from './pages/dashboard/Dashboard';
 
 function App() {
   const userSelectorData = useAppSelector(userSelector);
@@ -28,6 +30,15 @@ function App() {
   return (
     <>
       <Routes>
+        <Route
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated} to="/">
+              <Dashboard />
+            </PrivateRoute>
+          }
+          path="/dashboard"
+        />
+
         <Route
           element={
             <PublicRoute isAuthenticated={isAuthenticated} to="/">
@@ -61,6 +72,7 @@ function App() {
             path="/search-invoice"
           />
         </Route>
+
         <Route element={<NotFound />} path="*" />
       </Routes>
     </>

@@ -12,12 +12,14 @@ import { signInValidation } from "./login.validation";
 import ErrorMessage from "components/ErrorMessage";
 import { localStorageService } from "services/localstorage.service";
 import { LOCALSTORAGE_KEY } from "../../contants/message";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import ModalComponent from "components/Modal.component";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -44,17 +46,26 @@ const Login: React.FC = () => {
           data.tokens.access.token
         );
 
-        localStorageService.setItem(
-          LOCALSTORAGE_KEY.USER_DATA,
-          JSON.stringify(data.user)
-        );
-        dispatch(userActions.getUserInfoSuccess(data.user));
-        navigate("/home");
+        if (!data.user.isInformationVerified) {
+          dispatch(userActions.getUserInfoSuccessWithNoAuthentication(data.user));
+          showModalUpdateUserProfile();
+        } else {
+          localStorageService.setItem(
+            LOCALSTORAGE_KEY.USER_DATA,
+            JSON.stringify(data.user)
+          );
+          dispatch(userActions.getUserInfoSuccess(data.user));
+          navigate("/dashboard");
+        }
       }
     } catch (error) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const showModalUpdateUserProfile = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -106,9 +117,9 @@ const Login: React.FC = () => {
                   <ErrorMessage message={formik.errors.password as string} />
                 )}
               </div>
-              <a href="#" className="text-xs text-blue-600 hover:underline">
+              <NavLink to="#" className="text-xs text-blue-600 hover:underline">
                 Forget Password?
-              </a>
+              </NavLink>
               <div className="mt-6">
                 <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                   Login
@@ -119,16 +130,20 @@ const Login: React.FC = () => {
             <p className="mt-8 text-xs font-light text-center text-gray-700">
               {" "}
               Don't have an account?{" "}
-              <a
-                href="/register"
+              <NavLink
+                to="/register"
                 className="font-medium text-blue-600 hover:underline"
               >
                 Sign up
-              </a>
+              </NavLink>
             </p>
           </div>
         </div>
       </Spin>
+      <ModalComponent
+        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isModalOpen}
+      />
     </div>
   );
 };

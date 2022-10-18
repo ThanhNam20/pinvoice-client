@@ -1,6 +1,7 @@
 export interface IUser {
   role: string;
   isEmailVerified: boolean;
+  isInformationVerified: boolean;
   commonName: string;
   organizationalUnitName: string;
   organizationName: string;
