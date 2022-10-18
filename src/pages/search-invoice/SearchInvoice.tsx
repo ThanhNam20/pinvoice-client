@@ -31,7 +31,7 @@ const SearchInvoice = () => {
   return (
     <>
       <Spin size="large" spinning={loading}>
-        <div className="container">
+        <div className="container search-height">
           <div className="search-container">
             <p className="search-title">Tra cứu thông tin hoá đơn</p>
             <div className="form-container">

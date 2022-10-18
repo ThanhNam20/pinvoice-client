@@ -34,6 +34,10 @@ const userSlice = createSlice({
     getUserInfoFailed(state) {
       state.isAuthenticated = false;
     },
+    removeUserInfo(state) {
+      state.currentUser = null;
+      state.isAuthenticated = false
+    }
   },
 });
 // Actions

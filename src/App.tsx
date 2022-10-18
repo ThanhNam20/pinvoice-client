@@ -11,9 +11,10 @@ import Register from "./pages/register/Register";
 import { userSelector } from "./store/slices/userSlice";
 import { useAppSelector } from "store/hooks";
 import { LOCALSTORAGE_KEY } from "./contants/message";
-import SearchInvoice from './pages/search-invoice/SearchInvoice';
-import ProfileUser from './pages/update-profile/UpdateProfile';
-import Dashboard from './pages/dashboard/Dashboard';
+import SearchInvoice from "./pages/search-invoice/SearchInvoice";
+import ProfileUser from "./pages/update-profile/UpdateProfile";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Template from "pages/template/Template";
 
 function App() {
   const userSelectorData = useAppSelector(userSelector);
@@ -32,15 +33,6 @@ function App() {
       <Routes>
         <Route
           element={
-            <PrivateRoute isAuthenticated={isAuthenticated} to="/">
-              <Dashboard />
-            </PrivateRoute>
-          }
-          path="/dashboard"
-        />
-
-        <Route
-          element={
             <PublicRoute isAuthenticated={isAuthenticated} to="/">
               <Login />
             </PublicRoute>
@@ -55,21 +47,16 @@ function App() {
           }
           path="/register"
         />
-        <Route
-          element={
-            <PublicRoute isAuthenticated={isAuthenticated} to="/">
-              <Home />
-            </PublicRoute>
-          }
-          path="/"
-        >
+        <Route element={<Home />} path="/">
+          <Route element={<SearchInvoice />} path="/search-invoice" />
+          <Route element={<Template />} index />
           <Route
             element={
-              <PublicRoute isAuthenticated={isAuthenticated} to="/">
-                <SearchInvoice />
-              </PublicRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} to="/login">
+                <Dashboard />
+              </PrivateRoute>
             }
-            path="/search-invoice"
+            path="/dashboard"
           />
         </Route>
 
