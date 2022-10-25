@@ -12,3 +12,4 @@ export const TOAST_MESSAGE = {
   USER_NOT_VERIFIED: "Tài khoản cần cập nhật thông tin để hệ thống cấp chứng chỉ",
   UPDATE_USER_INFO_SUCCESS: "Update user info successfully",
 }
+

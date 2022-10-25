@@ -15,6 +15,10 @@ import SearchInvoice from "./pages/search-invoice/SearchInvoice";
 import ProfileUser from "./pages/update-profile/UpdateProfile";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Template from "pages/template/Template";
+import AddProduct from "pages/add-product/AddProduct";
+import ManageProduct from "pages/manage-product/ManageProduct";
+import AddInvoice from "pages/add-invoice/AddInvoice";
+import ManageInvoice from "pages/manage-invoice/ManageInvoice";
 
 function App() {
   const userSelectorData = useAppSelector(userSelector);
@@ -37,7 +41,7 @@ function App() {
               <Login />
             </PublicRoute>
           }
-          path="/login"
+          path="login"
         />
         <Route
           element={
@@ -45,19 +49,24 @@ function App() {
               <Register />
             </PublicRoute>
           }
-          path="/register"
+          path="register"
         />
         <Route element={<Home />} path="/">
-          <Route element={<SearchInvoice />} path="/search-invoice" />
+          <Route element={<SearchInvoice />} path="search-invoice" />
           <Route element={<Template />} index />
           <Route
             element={
-              <PrivateRoute isAuthenticated={isAuthenticated} to="/login">
+              <PrivateRoute isAuthenticated={isAuthenticated} to="login">
                 <Dashboard />
               </PrivateRoute>
             }
-            path="/dashboard"
-          />
+            path="admin"
+          >
+            <Route element={<AddProduct />} path="add-product" />
+            <Route element={<ManageProduct />} path="manage-product" />
+            <Route element={<AddInvoice />} path="add-invoice" />
+            <Route element={<ManageInvoice />} path="manage-invoice" />
+          </Route>
         </Route>
 
         <Route element={<NotFound />} path="*" />

@@ -26,14 +26,12 @@ const Template = () => {
             <div className="items-center flex flex-wrap">
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
-                  <h1 className="text-white font-semibold text-5xl">
-                    Your story starts with us.
+                  <h1 className="text-white font-semibold text-4xl">
+                    PHẦN MỀM QUẢN LÝ HOÁ ĐƠN DOANH NGHIỆP
                   </h1>
-                  <p className="mt-4 text-lg text-gray-300">
-                    This is a simple example of a Landing Page you can build
-                    using Tailwind Starter Kit. It features multiple CSS
-                    components based on the Tailwindcss design system.
-                  </p>
+                  {/* <p className="mt-4 text-lg text-gray-300">
+                    
+                  </p> */}
                 </div>
               </div>
             </div>
@@ -68,10 +66,10 @@ const Template = () => {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                       <i className="fas fa-award"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
+                    <h6 className="text-xl font-semibold">Tiết kiệm</h6>
                     <p className="mt-2 mb-4 text-gray-600">
-                      Divide details about your product or agency work into
-                      parts. A paragraph describing a feature will be enough.
+                      Tiết kiệm 90% chi phí in ấn, vận chuyển, lưu trữ và bảo
+                      quản hóa đơn.
                     </p>
                   </div>
                 </div>
@@ -83,10 +81,10 @@ const Template = () => {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400">
                       <i className="fas fa-retweet"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Free Revisions</h6>
+                    <h6 className="text-xl font-semibold">An toàn</h6>
                     <p className="mt-2 mb-4 text-gray-600">
-                      Keep you user engaged by providing meaningful information.
-                      Remember that by this time, the user is curious.
+                      Không xảy ra cháy, hỏng, mất hóa đơn. Tăng độ tin cậy cho
+                      hóa đơn của doanh nghiệp
                     </p>
                   </div>
                 </div>
@@ -98,10 +96,10 @@ const Template = () => {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-green-400">
                       <i className="fas fa-fingerprint"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Verified Company</h6>
+                    <h6 className="text-xl font-semibold">Nhanh chóng</h6>
                     <p className="mt-2 mb-4 text-gray-600">
-                      Write a few lines about each one. A paragraph describing a
-                      feature will be enough. Keep you user engaged!
+                      Người mua tức thời nhận được hóa đơn, rút ngắn thời gian
+                      thu nợ
                     </p>
                   </div>
                 </div>
