@@ -3,6 +3,7 @@
 
 import { SIDEBAR_TITLE } from "contants/const";
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
 
@@ -73,12 +74,12 @@ const Sidebar = () => {
                   {item.items.length > 0 &&
                     item.items.map((data: any) => (
                       <li>
-                        <a
-                          href="#"
+                        <NavLink
+                          to={data.route}
                           className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         >
                           {data.title}
-                        </a>
+                        </NavLink>
                       </li>
                     ))}
                 </ul>
