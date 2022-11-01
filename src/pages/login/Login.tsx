@@ -55,7 +55,7 @@ const Login: React.FC = () => {
             JSON.stringify(data.user)
           );
           dispatch(userActions.getUserInfoSuccess(data.user));
-          navigate("/admin/manage-product");
+          navigate("/admin/manage-invoice");
         }
       }
     } catch (error) {

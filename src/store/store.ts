@@ -2,13 +2,15 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./rootSaga";
+import productsReducer from "./slices/productSlice";
 import userReducer from './slices/userSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
-    user: userReducer
+    user: userReducer,
+    products: productsReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

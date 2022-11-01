@@ -1,9 +1,15 @@
-import React from 'react'
+import { PAGINATION } from "contants/const";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { productsActions, productsSelector } from "store/slices/productSlice";
 
 const ManageProduct = () => {
-  return (
-    <div>ManageProduct</div>
-  )
-}
+  const dispatch = useAppDispatch();  
+  useEffect(() => {
+    dispatch(productsActions.getListProducts(PAGINATION.LIMIT));
+  }, []);
 
-export default ManageProduct
+  return <div>ManageProduct</div>;
+};
+
+export default ManageProduct;

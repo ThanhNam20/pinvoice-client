@@ -75,7 +75,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
           position: toast.POSITION.TOP_RIGHT,
         });
         setIsModalOpen(false);
-        navigate("/admin/manage-product");
+        navigate("/admin/manage-invoice");
       }
     } catch (error) {
     } finally {

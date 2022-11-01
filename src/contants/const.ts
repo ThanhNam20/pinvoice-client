@@ -16,3 +16,8 @@ export const SIDEBAR_TITLE = [
     ],
   },
 ];
+
+export const PAGINATION = {
+  LIMIT: 500,
+  PAGE: 1
+}

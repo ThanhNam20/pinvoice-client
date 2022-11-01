@@ -1,328 +1,134 @@
-import { Spin, Row, Col, Input } from 'antd';
-import { ErrorMessage } from 'formik';
-import React, { useState } from 'react'
-import { useAppDispatch } from 'store/hooks';
+import { Button, Col, Form, Input, Row, Spin } from "antd";
+import { PAGINATION } from "contants/const";
+import { TOAST_MESSAGE } from "contants/message";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { productService } from "services/product.service";
+import { useAppDispatch } from "store/hooks";
+import { productsActions } from "store/slices/productSlice";
 
-const AddProduct = () => {
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+
+const AddProduct: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-    const dispatch = useAppDispatch();
+
+  const onFinish = async (values: any) => {
+    setLoading(true);
+    try {
+      await productService.createNewProduct(values);
+      dispatch(productsActions.getListProducts(PAGINATION.LIMIT));
+      toast.success(TOAST_MESSAGE.CREATE_PRODUCT_SUCCESSFULLY, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } catch (error) {
+      toast.error(TOAST_MESSAGE.SOME_THING_WENT_WRONG, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } finally {
+      setLoading(false);
+      form.resetFields();
+    }
+  };
+
   return (
-    <Spin size="default" spinning={loading}>
-      <form>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
+    <Spin size="large" spinning={loading}>
+      <Form
+        {...formItemLayout}
+        form={form}
+        name="register"
+        onFinish={onFinish}
+        scrollToFirstError
+      >
+        <p style={{ fontSize: 32, fontWeight: 500, paddingBottom: 20 }}>
+          Thêm hàng hoá
+        </p>
+        <Row gutter={2}>
+          <Col span={12}>
+            <Form.Item
+              name="productName"
+              label="Tên hàng hoá"
+              rules={[
+                {
+                  required: true,
+                  message: "Required",
+                },
+              ]}
+            >
+              <Input size="large" />
+            </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
+
+        <Row gutter={2}>
+          <Col span={12}>
+            <Form.Item
+              name="productQuantity"
+              label="Số lượng hàng hoá"
+              rules={[
+                {
+                  required: true,
+                  message: "Required",
+                },
+              ]}
+            >
+              <Input size="large" />
+            </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
+
+        <Row gutter={2}>
+          <Col span={12}>
+            <Form.Item
+              name="productUnit"
+              label="Đơn vị"
+              rules={[
+                {
+                  required: true,
+                  message: "Required",
+                },
+              ]}
+            >
+              <Input size="large" />
+            </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
+
+        <Row gutter={2}>
+          <Col span={12}>
+            <Form.Item
+              name="productPrice"
+              label="Giá hàng hoá"
+              rules={[
+                {
+                  required: true,
+                  message: "Required",
+                },
+              ]}
+            >
+              <Input size="large" />
+            </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="commonName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                Common Name
-              </label>
-              <Input
-                type="commonName"
-                id="commonName"
-                name="commonName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <div className="mb-2">
-              <label
-                htmlFor="organizationalUnitName"
-                className="block text-sm font-semibold text-gray-800"
-              >
-                OrganizationalUnit
-              </label>
-              <Input
-                type="organizationalUnitName"
-                id="organizationalUnitName"
-                name="organizationalUnitName"
-                className="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
-          </Col>
-        </Row>
+
         <div className="mt-6 flex justify-center">
-          <button className="w-1/2 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-            Cập nhật
+          <button className="w-1/3 px-4 py-2  tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+            Thêm hàng hoá
           </button>
         </div>
-      </form>
+      </Form>
     </Spin>
   );
-}
+};
 
 export default AddProduct;

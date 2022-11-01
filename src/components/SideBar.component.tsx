@@ -6,14 +6,11 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
-
   const [selectedTab, setSelectedTab] = useState(1);
 
   const selectSideBarTab = (selectedTabNumber: number) => {
     setSelectedTab(selectedTabNumber);
-    console.log(selectedTabNumber);
-    
-  }
+  };
 
   return (
     <>

@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import { Button } from "antd";
+import NotFound from "components/NotFound";
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
-import Home from "pages/home/Home";
-import { Routes, Route } from "react-router-dom";
-import Login from "pages/login/Login";
-import NotFound from "components/NotFound";
-import Register from "./pages/register/Register";
-import { userSelector } from "./store/slices/userSlice";
-import { useAppSelector } from "store/hooks";
-import { LOCALSTORAGE_KEY } from "./contants/message";
-import SearchInvoice from "./pages/search-invoice/SearchInvoice";
-import ProfileUser from "./pages/update-profile/UpdateProfile";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Template from "pages/template/Template";
-import AddProduct from "pages/add-product/AddProduct";
-import ManageProduct from "pages/manage-product/ManageProduct";
 import AddInvoice from "pages/add-invoice/AddInvoice";
+import AddProduct from "pages/add-product/AddProduct";
+import Home from "pages/home/Home";
+import Login from "pages/login/Login";
 import ManageInvoice from "pages/manage-invoice/ManageInvoice";
+import ManageProduct from "pages/manage-product/ManageProduct";
+import Template from "pages/template/Template";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { useAppSelector } from "store/hooks";
+import "./App.css";
+import { LOCALSTORAGE_KEY } from "./contants/message";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Register from "./pages/register/Register";
+import SearchInvoice from "./pages/search-invoice/SearchInvoice";
+import { userSelector } from "./store/slices/userSlice";
 
 function App() {
   const userSelectorData = useAppSelector(userSelector);
@@ -56,16 +54,16 @@ function App() {
           <Route element={<Template />} index />
           <Route
             element={
-              <PrivateRoute isAuthenticated={isAuthenticated} to="login">
+              <PrivateRoute isAuthenticated={isAuthenticated}>
                 <Dashboard />
               </PrivateRoute>
             }
             path="admin"
           >
+            <Route element={<ManageInvoice />} path="manage-invoice" />
             <Route element={<AddProduct />} path="add-product" />
             <Route element={<ManageProduct />} path="manage-product" />
             <Route element={<AddInvoice />} path="add-invoice" />
-            <Route element={<ManageInvoice />} path="manage-invoice" />
           </Route>
         </Route>
 
