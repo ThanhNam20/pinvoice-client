@@ -1,6 +1,7 @@
 import NotFound from "components/NotFound";
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
+import { PAGINATION } from "contants/const";
 import AddInvoice from "pages/add-invoice/AddInvoice";
 import AddProduct from "pages/add-product/AddProduct";
 import Home from "pages/home/Home";
@@ -10,7 +11,8 @@ import ManageProduct from "pages/manage-product/ManageProduct";
 import Template from "pages/template/Template";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { productsActions } from "store/slices/productSlice";
 import "./App.css";
 import { LOCALSTORAGE_KEY } from "./contants/message";
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -22,6 +24,7 @@ function App() {
   const userSelectorData = useAppSelector(userSelector);
   const userInfo = localStorage.getItem(LOCALSTORAGE_KEY.USER_DATA);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
     if (userInfo) {
       setIsAuthenticated(true);

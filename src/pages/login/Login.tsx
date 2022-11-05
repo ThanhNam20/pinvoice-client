@@ -1,19 +1,18 @@
+import { Input, Spin } from "antd";
+import ErrorMessage from "components/ErrorMessage";
+import ModalComponent from "components/Modal.component";
+import { useFormik } from "formik";
 import React, { useState } from "react";
-import "./styles.css";
-import { authService } from "../../services/auth.service";
-import { Field, useFormik } from "formik";
-import { LoginDto } from "types/LoginDto";
-import { Divider, Form, Input, Spin } from "antd";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ILogin } from "types/Auth";
+import { localStorageService } from "services/localstorage.service";
 import { useAppDispatch } from "store/hooks";
+import { LoginDto } from "types/LoginDto";
+import { LOCALSTORAGE_KEY } from "../../contants/message";
+import { authService } from "../../services/auth.service";
 import { userActions } from "../../store/slices/userSlice";
 import { signInValidation } from "./login.validation";
-import ErrorMessage from "components/ErrorMessage";
-import { localStorageService } from "services/localstorage.service";
-import { LOCALSTORAGE_KEY } from "../../contants/message";
-import { NavLink, useNavigate } from "react-router-dom";
-import ModalComponent from "components/Modal.component";
+import "./styles.css";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();

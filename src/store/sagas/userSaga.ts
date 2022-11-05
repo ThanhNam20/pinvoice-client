@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { call, put, take, takeLatest, fork } from "redux-saga/effects";
+import { call, put, take, takeLatest, fork, takeEvery } from "redux-saga/effects";
 import { GetUserDto } from "store/slices/userSlice";
 import { userService } from "../../services/user.service";
 import { userActions } from "../slices/userSlice";
@@ -17,5 +17,5 @@ function* getUserInfo() {
 }
 
 export default function* authSaga() {
-  yield fork(getUserInfo);
+  yield takeEvery(userActions.getUserInfo.type, getUserInfo);
 }

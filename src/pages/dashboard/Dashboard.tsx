@@ -4,8 +4,11 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
-import React, { useState } from "react";
+import { PAGINATION } from "contants/const";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "store/hooks";
+import { productsActions } from "store/slices/productSlice";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -36,12 +39,18 @@ const items: MenuItem[] = [
 ];
 
 const Dashboard: React.FC = () => {
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(productsActions.getListProducts(PAGINATION.LIMIT));
+  }, []);
+
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
-  const goToDashboardPage = (key: string) =>{
-    let page = '';
-    
+  const goToDashboardPage = (key: string) => {
+    let page = "";
+
     switch (key) {
       case "2":
         page = "/admin/manage-invoice";
@@ -59,24 +68,24 @@ const Dashboard: React.FC = () => {
         break;
     }
     navigate(page);
-  }
+  };
 
   return (
     <Layout style={{ minHeight: "100vh", marginTop: "68px" }}>
       <Sider
-        // collapsible
-        // collapsed={collapsed}
-        // onCollapse={(value) => setCollapsed(value)}
+      // collapsible
+      // collapsed={collapsed}
+      // onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo" />
         <Menu
           theme="dark"
-          defaultOpenKeys={['1']}
+          defaultOpenKeys={["1"]}
           defaultSelectedKeys={["2"]}
           mode="inline"
           items={items}
           onSelect={(item) => {
-            goToDashboardPage(item.key)
+            goToDashboardPage(item.key);
           }}
         />
       </Sider>
