@@ -14,7 +14,7 @@ const ManageInvoice = () => {
   useEffect(() => {
     const listInvoices = initListInvoices(listInvoicesState.listInvoices);
     setListInvoices(listInvoices);
-  }, []);
+  }, [listInvoicesState]);
 
   const initListInvoices = (data: Invoice[]) => {
     return data.map((item, index) => ({

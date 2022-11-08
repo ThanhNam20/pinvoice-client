@@ -1,6 +1,8 @@
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
 import React, { useEffect, useState } from "react";
+import { invoiceService } from "services/invoice.service";
 import { Invoice } from "types/Invoice";
+import ReleaseInvoiceModal from "./ReleaseInvoiceModal.component";
 
 type InvoiceTableProps = {
   listInvoices: Invoice[];
@@ -48,17 +50,16 @@ const EditableCell: React.FC<EditableCellProps> = ({
         children
       )}
     </td>
-    
   );
 };
 
 const InvoiceTableComponent = (props: InvoiceTableProps) => {
-  const {listInvoices} = props;
-  console.log(listInvoices);
-  
+  const { listInvoices } = props;
+
   const [form] = Form.useForm();
   const [data, setData] = useState<Invoice[]>(originData);
   const [editingKey, setEditingKey]: any = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isEditing = (record: Invoice) => record.id === editingKey;
 
   useEffect(() => {}, [props]);
@@ -74,6 +75,19 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
       ...record,
     });
     setEditingKey(record.id);
+  };
+
+  const seeInvoice = async (invoiceId: string) => {
+    window.open(
+      `${process.env.REACT_APP_BASE_URL}/v1/invoices/show-invoice/${invoiceId}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
+  const releaseInvoice = (invoiceId: string) => {
+    setIsModalOpen(true);
+    return <></>;
   };
 
   const cancel = () => {
@@ -113,25 +127,25 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
     {
       title: "Số hoá đơn",
       dataIndex: "invoiceNumber",
-      width: "20%",
+      width: "15%",
       editable: false,
     },
     {
       title: "Tên khách hàng",
       dataIndex: "customerName",
-      width: "20%",
+      width: "15%",
       editable: true,
     },
     {
       title: "Ngày tạo",
       dataIndex: "createdDate",
-      width: "10%",
+      width: "15%",
       editable: false,
     },
     {
       title: "Ngày phát hành",
       dataIndex: "releaseDate",
-      width: "10%",
+      width: "15%",
       editable: false,
     },
     {
@@ -158,12 +172,30 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => edit(record)}
-          >
-            Edit
-          </Typography.Link>
+          <>
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => seeInvoice(record.id)}
+              style={{ paddingRight: 10 }}
+            >
+              Xem
+            </Typography.Link>
+
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => edit(record)}
+              style={{ paddingRight: 10 }}
+            >
+              Chỉnh sửa
+            </Typography.Link>
+
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => releaseInvoice(record.id)}
+            >
+              Phát hành
+            </Typography.Link>
+          </>
         );
       },
     },
@@ -186,22 +218,28 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
   });
 
   return (
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={listInvoices}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
+    <>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={listInvoices}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+      <ReleaseInvoiceModal
+        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isModalOpen}
       />
-    </Form>
+    </>
   );
 };
 

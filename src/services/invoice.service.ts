@@ -17,7 +17,34 @@ const createNewInvoices = (data: any): any => {
   return axios(config);
 };
 
+const seeInvoice = (id: string): any => {
+  const config = {
+    url: `v1/invoices/show-invoice/${id}`,
+    method: "get",
+  };
+  return axios(config);
+};
+
+const releaseInvoice = (
+  id: string,
+  file: File,
+  clientCertificatePassword: string
+): any => {
+  const formData = new FormData();
+  formData.append("invoiceId", id);
+  formData.append("clientCertificatePassword", clientCertificatePassword);
+  formData.append("file", file);
+  const config = {
+    url: `v1/invoices/export-invoice`,
+    method: "post",
+    data: formData,
+  };
+  return axios(config);
+};
+
 export const invoiceService = {
   getListInvoices,
   createNewInvoices,
+  seeInvoice,
+  releaseInvoice,
 };
