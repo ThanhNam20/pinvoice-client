@@ -1,10 +1,10 @@
 import { LOCALSTORAGE_KEY } from "contants/message";
 
-const setItem = (key: string ,data: string) => {
+const setItem = (key: string, data: string) => {
   localStorage.setItem(key, data);
 };
 
-const getItem = (key: string) => {
+const getItem = (key: string): any => {
   return localStorage.getItem(key);
 };
 

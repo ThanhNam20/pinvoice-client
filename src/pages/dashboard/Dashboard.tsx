@@ -5,10 +5,14 @@ import {
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { PAGINATION } from "contants/const";
+import { LOCALSTORAGE_KEY } from "contants/message";
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { localStorageService } from "services/localstorage.service";
 import { useAppDispatch } from "store/hooks";
+import { invoicesActions } from "store/slices/invoiceSlice";
 import { productsActions } from "store/slices/productSlice";
+import { userActions } from "store/slices/userSlice";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -40,9 +44,15 @@ const items: MenuItem[] = [
 
 const Dashboard: React.FC = () => {
 
+  const userInfo = JSON.parse(localStorageService.getItem(LOCALSTORAGE_KEY.USER_DATA));
+
+  
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(productsActions.getListProducts(PAGINATION.LIMIT));
+    dispatch(invoicesActions.getListInvoices(PAGINATION.LIMIT));
+    dispatch(userActions.getUserInfo(userInfo.id));
   }, []);
 
   const [collapsed, setCollapsed] = useState(false);

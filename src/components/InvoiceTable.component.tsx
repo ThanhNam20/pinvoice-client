@@ -1,20 +1,19 @@
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
 import React, { useEffect, useState } from "react";
-import { IProduct } from "types/Product";
+import { Invoice } from "types/Invoice";
 
-type TableProps = {
-  listProductSelected: IProduct[];
-  setListProductSelected: (listProductSelected: IProduct[]) => any;
+type InvoiceTableProps = {
+  listInvoices: Invoice[];
 };
 
-const originData: IProduct[] = [];
+const originData: Invoice[] = [];
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: any;
   inputType: "number" | "text";
-  record: IProduct;
+  record: Invoice;
   index: number;
   children: React.ReactNode;
 }
@@ -49,27 +48,29 @@ const EditableCell: React.FC<EditableCellProps> = ({
         children
       )}
     </td>
+    
   );
 };
 
-const TableComponent = (props: TableProps) => {
-  let { listProductSelected, setListProductSelected } = props;
+const InvoiceTableComponent = (props: InvoiceTableProps) => {
+  const {listInvoices} = props;
+  console.log(listInvoices);
+  
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
+  const [data, setData] = useState<Invoice[]>(originData);
   const [editingKey, setEditingKey]: any = useState("");
-  const isEditing = (record: IProduct) => record.id === editingKey;
+  const isEditing = (record: Invoice) => record.id === editingKey;
 
-  useEffect(() => {
+  useEffect(() => {}, [props]);
 
-    setData(listProductSelected);
-  }, [props]);
-
-  const edit = (record: Partial<IProduct> & { key: React.Key }) => {
+  const edit = (record: Partial<Invoice> & { id: React.Key }) => {
     form.setFieldsValue({
-      productName: "",
-      productQuantity: "",
-      productUnit: "",
-      productPrice: "",
+      indexNumber: "",
+      invoiceNumber: "",
+      customerName: "",
+      createdDate: "",
+      releaseDate: "",
+      releaseStatus: "",
       ...record,
     });
     setEditingKey(record.id);
@@ -81,8 +82,8 @@ const TableComponent = (props: TableProps) => {
 
   const save = async (id: string) => {
     try {
-      const row = (await form.validateFields()) as IProduct;
-      const newData = [...listProductSelected];
+      const row = (await form.validateFields()) as Invoice;
+      const newData = [...data];
       const index = newData.findIndex((item) => id === item.id);
       if (index > -1) {
         const item = newData[index];
@@ -91,12 +92,10 @@ const TableComponent = (props: TableProps) => {
           ...row,
         });
         setData(newData);
-        setListProductSelected(newData);
         setEditingKey("");
       } else {
         newData.push(row);
         setData(newData);
-        setListProductSelected(newData);
         setEditingKey("");
       }
     } catch (errInfo) {
@@ -106,33 +105,45 @@ const TableComponent = (props: TableProps) => {
 
   const columns = [
     {
-      title: "Tên",
-      dataIndex: "productName",
-      width: "25%",
+      title: "STT",
+      dataIndex: "indexNumber",
+      width: "10%",
       editable: true,
     },
     {
-      title: "Số lượng",
-      dataIndex: "productQuantity",
-      width: "15%",
-      editable: true,
+      title: "Số hoá đơn",
+      dataIndex: "invoiceNumber",
+      width: "20%",
+      editable: false,
     },
     {
-      title: "Đơn vị",
-      dataIndex: "productUnit",
+      title: "Tên khách hàng",
+      dataIndex: "customerName",
       width: "20%",
       editable: true,
     },
     {
-      title: "Giá / đơn vị",
-      dataIndex: "productPrice",
-      width: "20%",
-      editable: true,
+      title: "Ngày tạo",
+      dataIndex: "createdDate",
+      width: "10%",
+      editable: false,
+    },
+    {
+      title: "Ngày phát hành",
+      dataIndex: "releaseDate",
+      width: "10%",
+      editable: false,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "releaseStatus",
+      width: "10%",
+      editable: false,
     },
     {
       title: "Chức năng",
       dataIndex: "operation",
-      render: (_: any, record: IProduct) => {
+      render: (_: any, record: Invoice) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
@@ -164,9 +175,9 @@ const TableComponent = (props: TableProps) => {
     }
     return {
       ...col,
-      onCell: (record: IProduct) => ({
+      onCell: (record: Invoice) => ({
         record,
-        inputType: col.dataIndex === "productQuantity" ? "number" : "text",
+        inputType: col.dataIndex === "text",
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -183,7 +194,7 @@ const TableComponent = (props: TableProps) => {
           },
         }}
         bordered
-        dataSource={data}
+        dataSource={listInvoices}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={{
@@ -194,4 +205,4 @@ const TableComponent = (props: TableProps) => {
   );
 };
 
-export default TableComponent;
+export default InvoiceTableComponent;

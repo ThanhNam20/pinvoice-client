@@ -4,7 +4,7 @@ import { RootState } from "store/store";
 import { IUser } from "types/User";
 
 export interface ProductState {
-  listProducts: IProduct[] | null;
+  listProducts: IProduct[];
 }
 
 export interface GetUserDto {
@@ -12,7 +12,7 @@ export interface GetUserDto {
 }
 
 const initialState: ProductState = {
-  listProducts: null,
+  listProducts: [],
 };
 
 const productsSlice = createSlice({
@@ -20,7 +20,7 @@ const productsSlice = createSlice({
   initialState: initialState,
   reducers: {
     getListProducts(state, action: PayloadAction<any>) {
-      state.listProducts = null;
+      state.listProducts = [];
     },
     getListProductsSuccess(state, action: PayloadAction<IProduct[]>) {
       state.listProducts = action.payload;

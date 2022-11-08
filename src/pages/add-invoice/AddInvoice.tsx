@@ -7,9 +7,9 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { invoiceService } from "services/invoice.service";
-import { productService } from "services/product.service";
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import { productsActions, productsSelector } from "store/slices/productSlice";
+import { invoicesActions } from "store/slices/invoiceSlice";
+import { productsSelector } from "store/slices/productSlice";
 import { userSelector } from "store/slices/userSlice";
 import { IProduct } from "types/Product";
 import { addInvoiceValidation } from "./AddInvoice.validation";
@@ -47,7 +47,8 @@ const AddInvoice: React.FC = () => {
 
   const onSelectProduct = (selectItem: any) => {
     const item = getProductById(selectItem.target.value);
-    setListProductSelected((prev): any => [...prev, item]);
+    const data = { ...item, productQuantity: "1" };
+    setListProductSelected((prev): any => [...prev, data]);
   };
 
   const onFinish = async (values: any) => {
@@ -55,18 +56,18 @@ const AddInvoice: React.FC = () => {
     let totalPayment = "";
     listProductSelected.forEach((item) => {
       totalPayment += item.productPrice;
-    })
+    });
     const submitData = {
       ...values,
       listProducts: listProductSelected,
       userId,
       totalPayment,
-    };    
+    };
     setLoading(true);
     try {
       const response = await invoiceService.createNewInvoices(submitData);
       if (response) {
-
+        dispatch(invoicesActions.getListInvoices(PAGINATION.LIMIT));
         toast.success(TOAST_MESSAGE.CREATE_INVOICE_SUCCESSFULLY, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -205,11 +206,11 @@ const AddInvoice: React.FC = () => {
         </div>
 
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-          Select an option
+          Chọn hàng hoá
         </label>
         <select
           onChange={onSelectProduct}
-          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="mb-8 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option selected>Danh sách sản phẩm</option>
           {productsState.listProducts &&
