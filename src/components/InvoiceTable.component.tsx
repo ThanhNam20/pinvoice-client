@@ -61,6 +61,7 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
   const [editingKey, setEditingKey]: any = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isEditing = (record: Invoice) => record.id === editingKey;
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice>(listInvoices[0]);
 
   useEffect(() => {}, [props]);
 
@@ -85,7 +86,8 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
     );
   };
 
-  const releaseInvoice = (invoiceId: string) => {
+  const releaseInvoice = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
     setIsModalOpen(true);
     return <></>;
   };
@@ -191,7 +193,7 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
 
             <Typography.Link
               disabled={editingKey !== ""}
-              onClick={() => releaseInvoice(record.id)}
+              onClick={() => releaseInvoice(record)}
             >
               Phát hành
             </Typography.Link>
@@ -236,6 +238,7 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
         />
       </Form>
       <ReleaseInvoiceModal
+        selectedInvoice={selectedInvoice}
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
       />

@@ -1,19 +1,23 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Select, Spin, Upload } from "antd";
+import { Button, Form, Input, message, Modal, Select, Spin, Upload } from "antd";
+import { TOAST_MESSAGE } from "contants/message";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { invoiceService } from "services/invoice.service";
 import { useAppSelector } from "store/hooks";
 import { userSelector } from "store/slices/userSlice";
+import { Invoice } from "types/Invoice";
 import { useAppDispatch } from "../store/hooks";
 
 export interface ModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isModalOpen: boolean) => void;
+  selectedInvoice: Invoice;
 }
 
 const ReleaseInvoiceModal: React.FC<ModalProps> = (props: ModalProps) => {
-  const { isModalOpen, setIsModalOpen } = props;
+  const { isModalOpen, setIsModalOpen, selectedInvoice } = props;
   const dispatch = useAppDispatch();
   const userSelectorData = useAppSelector(userSelector);
   const navigate = useNavigate();
@@ -47,10 +51,19 @@ const ReleaseInvoiceModal: React.FC<ModalProps> = (props: ModalProps) => {
   };
 
   const onFinish = async (values: any) => {
-    console.log("Received values of form: ", values);
     const file = values.dragger[0].originFileObj;
-    await invoiceService.releaseInvoice("636a87af634ab81519045764", file, '123123123123' );
-
+    try {
+      const response = await invoiceService.releaseInvoice(
+        selectedInvoice.id,
+        file,
+        values.clientCertificatePassword
+      );
+      if (response) {
+        toast.success(TOAST_MESSAGE.SIGN_INVOICE_SUCCESSFULLY, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {}
   };
 
   return (
