@@ -8,11 +8,22 @@ const getListInvoices = (limit: number): any => {
   return axios(config);
 };
 
+const getInvoiceById = (invoiceId: string, capchaCode: string): any => {
+  const config = {
+    url: `v1/invoices/getInvoice/${invoiceId}`,
+    method: "post",
+    data: {
+      capchaCode,
+    },
+  };
+  return axios(config);
+};
+
 const createNewInvoices = (data: any): any => {
   const config = {
     url: `v1/invoices/create-invoice`,
     method: "post",
-    data
+    data,
   };
   return axios(config);
 };
@@ -47,4 +58,5 @@ export const invoiceService = {
   createNewInvoices,
   seeInvoice,
   releaseInvoice,
+  getInvoiceById,
 };
