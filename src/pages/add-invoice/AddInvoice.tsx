@@ -2,11 +2,12 @@ import { Form, Input, Spin } from "antd";
 import ErrorMessage from "components/ErrorMessage";
 import TableComponent from "components/Table.component";
 import { PAGINATION } from "contants/const";
-import { TOAST_MESSAGE } from "contants/message";
+import { LOCALSTORAGE_KEY, TOAST_MESSAGE } from "contants/message";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { invoiceService } from "services/invoice.service";
+import { localStorageService } from "services/localstorage.service";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { invoicesActions } from "store/slices/invoiceSlice";
 import { productsSelector } from "store/slices/productSlice";
@@ -67,7 +68,12 @@ const AddInvoice: React.FC = () => {
     try {
       const response = await invoiceService.createNewInvoices(submitData);
       if (response) {
-        dispatch(invoicesActions.getListInvoices(PAGINATION.LIMIT));
+
+          const userInfo = JSON.parse(
+            localStorageService.getItem(LOCALSTORAGE_KEY.USER_DATA)
+          );
+
+        dispatch(invoicesActions.getListInvoices({ limit :PAGINATION.LIMIT, userId :userInfo.id}));
         toast.success(TOAST_MESSAGE.CREATE_INVOICE_SUCCESSFULLY, {
           position: toast.POSITION.TOP_RIGHT,
         });

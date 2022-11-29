@@ -61,7 +61,9 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
   const [editingKey, setEditingKey]: any = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isEditing = (record: Invoice) => record.id === editingKey;
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice>(listInvoices[0]);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice>(
+    listInvoices[0]
+  );
 
   useEffect(() => {}, [props]);
 
@@ -78,12 +80,20 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
     setEditingKey(record.id);
   };
 
-  const seeInvoice = async (invoiceId: string) => {
-    window.open(
-      `${process.env.REACT_APP_BASE_URL}/v1/invoices/show-invoice/${invoiceId}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+  const seeInvoice = async (invoice: Invoice) => {
+    if (invoice.isRelease) {
+      window.open(
+        `${process.env.REACT_APP_BASE_URL}/v1/invoices/show-invoice-with-sign/${invoice.id}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    } else {
+      window.open(
+        `${process.env.REACT_APP_BASE_URL}/v1/invoices/show-invoice/${invoice.id}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
   };
 
   const releaseInvoice = (invoice: Invoice) => {
@@ -177,26 +187,29 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
           <>
             <Typography.Link
               disabled={editingKey !== ""}
-              onClick={() => seeInvoice(record.id)}
+              onClick={() => seeInvoice(record)}
               style={{ paddingRight: 10 }}
             >
               Xem
             </Typography.Link>
 
-            <Typography.Link
-              disabled={editingKey !== ""}
-              onClick={() => edit(record)}
-              style={{ paddingRight: 10 }}
-            >
-              Chỉnh sửa
-            </Typography.Link>
-
-            <Typography.Link
-              disabled={editingKey !== ""}
-              onClick={() => releaseInvoice(record)}
-            >
-              Phát hành
-            </Typography.Link>
+            {!record.isRelease && (
+              <>
+                <Typography.Link
+                  disabled={editingKey !== ""}
+                  onClick={() => edit(record)}
+                  style={{ paddingRight: 10 }}
+                >
+                  Chỉnh sửa
+                </Typography.Link>
+                <Typography.Link
+                  disabled={editingKey !== ""}
+                  onClick={() => releaseInvoice(record)}
+                >
+                  Phát hành
+                </Typography.Link>
+              </>
+            )}
           </>
         );
       },

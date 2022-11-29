@@ -11,7 +11,8 @@ function* getListInvoices() {
   ); // Action type
   const response: AxiosResponse<any> = yield call(
     invoiceService.getListInvoices,
-    action.payload
+    action.payload.limit,
+    action.payload.userId
   );
   yield put(invoicesActions.getListInvoicesSuccess(response.data.results));
 }

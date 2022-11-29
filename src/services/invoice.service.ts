@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const getListInvoices = (limit: number): any => {
+const getListInvoices = (limit: number, userId: string): any => {
   const config = {
-    url: `v1/invoices/getInvoices?limit=${limit}`,
+    url: `v1/invoices/getInvoices?limit=${limit}&userId=${userId}`,
     method: "get",
   };
   return axios(config);

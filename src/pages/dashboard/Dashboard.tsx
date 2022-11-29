@@ -45,13 +45,10 @@ const items: MenuItem[] = [
 const Dashboard: React.FC = () => {
 
   const userInfo = JSON.parse(localStorageService.getItem(LOCALSTORAGE_KEY.USER_DATA));
-
-  
-
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(productsActions.getListProducts(PAGINATION.LIMIT));
-    dispatch(invoicesActions.getListInvoices(PAGINATION.LIMIT));
+    dispatch(invoicesActions.getListInvoices({ limit :PAGINATION.LIMIT, userId :userInfo.id}));
     dispatch(userActions.getUserInfo(userInfo.id));
   }, []);
 

@@ -1,11 +1,23 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Modal, Select, Spin, Upload } from "antd";
-import { TOAST_MESSAGE } from "contants/message";
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Modal,
+  Select,
+  Spin,
+  Upload,
+} from "antd";
+import { PAGINATION } from "contants/const";
+import { LOCALSTORAGE_KEY, TOAST_MESSAGE } from "contants/message";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { invoiceService } from "services/invoice.service";
+import { localStorageService } from "services/localstorage.service";
 import { useAppSelector } from "store/hooks";
+import { invoicesActions } from "store/slices/invoiceSlice";
 import { userSelector } from "store/slices/userSlice";
 import { Invoice } from "types/Invoice";
 import { useAppDispatch } from "../store/hooks";
@@ -62,8 +74,20 @@ const ReleaseInvoiceModal: React.FC<ModalProps> = (props: ModalProps) => {
         toast.success(TOAST_MESSAGE.SIGN_INVOICE_SUCCESSFULLY, {
           position: toast.POSITION.TOP_RIGHT,
         });
+        const userInfo = JSON.parse(
+          localStorageService.getItem(LOCALSTORAGE_KEY.USER_DATA)
+        );
+        dispatch(
+          invoicesActions.getListInvoices({
+            limit: PAGINATION.LIMIT,
+            userId: userInfo.id,
+          })
+        );
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      handleCancel();
+    }
   };
 
   return (
