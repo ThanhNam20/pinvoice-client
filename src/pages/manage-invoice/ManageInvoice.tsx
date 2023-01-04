@@ -26,7 +26,6 @@ const ManageInvoice = () => {
 
   return (
     <>
-      <div>ManageInvoice</div>
       <InvoiceTableComponent listInvoices={listInvoices} />
     </>
   );

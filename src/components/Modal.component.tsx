@@ -121,7 +121,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="commonName"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Common Name
+                    Tên
                   </label>
                   <Input
                     type="commonName"
@@ -146,7 +146,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="organizationalUnitName"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    OrganizationalUnit
+                    Bộ phận
                   </label>
                   <Input
                     type="organizationalUnitName"
@@ -174,7 +174,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="organizationName"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Organization
+                    Tổ chức
                   </label>
                   <Input
                     type="organizationName"
@@ -199,7 +199,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="localityName"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Locality
+                    Phường
                   </label>
                   <Input
                     type="localityName"
@@ -227,7 +227,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="stateOrProvinceName"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    State or Province Name
+                    Quận, huyện
                   </label>
                   <Input
                     type="stateOrProvinceName"
@@ -252,7 +252,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="countryName"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Country
+                    Quốc Gia
                   </label>
                   <Input
                     type="countryName"
@@ -280,7 +280,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="phoneNumber"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Phone Number
+                    Số điện thoại
                   </label>
                   <Input
                     type="phoneNumber"
@@ -305,7 +305,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="textCode"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Text Code
+                    Mã số thuế
                   </label>
                   <Input
                     type="textCode"
@@ -333,7 +333,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="address"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Address
+                    Địa chỉ
                   </label>
                   <Input
                     type="address"
@@ -355,7 +355,7 @@ const ModalComponent: React.FC<ModalProps> = (props: ModalProps) => {
                     htmlFor="accountNumber"
                     className="block text-sm font-semibold text-gray-800"
                   >
-                    Account Number
+                    Số tài khoản
                   </label>
                   <Input
                     type="accountNumber"

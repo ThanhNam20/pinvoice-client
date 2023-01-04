@@ -4,7 +4,7 @@ import TableComponent from "components/Table.component";
 import { PAGINATION } from "contants/const";
 import { LOCALSTORAGE_KEY, TOAST_MESSAGE } from "contants/message";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { DOMElement, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { invoiceService } from "services/invoice.service";
 import { localStorageService } from "services/localstorage.service";
@@ -25,6 +25,8 @@ const AddInvoice: React.FC = () => {
     []
   );
 
+  const [paymentMethod, setPaymentMethod] = useState<string>("Chuyển khoản");
+
   useEffect(() => {}, []);
   const formik = useFormik({
     initialValues: {
@@ -32,7 +34,6 @@ const AddInvoice: React.FC = () => {
       customerAddress: "",
       customerPhoneNumber: "",
       customerTextCode: "",
-      paymentMethod: "",
       customerAccountNumber: "",
     },
     validationSchema: addInvoiceValidation,
@@ -52,6 +53,11 @@ const AddInvoice: React.FC = () => {
     setListProductSelected((prev): any => [...prev, data]);
   };
 
+  const onSelectPaymentMethod = (event: any) => {
+    const paymentMethod = event.target.value;
+    setPaymentMethod(paymentMethod);
+  };
+
   const onFinish = async (values: any) => {
     const userId = userState.currentUser?.id;
     let totalPayment = "";
@@ -63,17 +69,22 @@ const AddInvoice: React.FC = () => {
       listProducts: listProductSelected,
       userId,
       totalPayment,
+      paymentMethod
     };
     setLoading(true);
     try {
       const response = await invoiceService.createNewInvoices(submitData);
       if (response) {
+        const userInfo = JSON.parse(
+          localStorageService.getItem(LOCALSTORAGE_KEY.USER_DATA)
+        );
 
-          const userInfo = JSON.parse(
-            localStorageService.getItem(LOCALSTORAGE_KEY.USER_DATA)
-          );
-
-        dispatch(invoicesActions.getListInvoices({ limit :PAGINATION.LIMIT, userId :userInfo.id}));
+        dispatch(
+          invoicesActions.getListInvoices({
+            limit: PAGINATION.LIMIT,
+            userId: userInfo.id,
+          })
+        );
         toast.success(TOAST_MESSAGE.CREATE_INVOICE_SUCCESSFULLY, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -108,7 +119,7 @@ const AddInvoice: React.FC = () => {
               value={formik.values.customerName}
               onBlur={formik.handleBlur}
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Thanh"
+              placeholder="Nhập tên khách hàng"
             />
             {formik.touched.customerName &&
               Boolean(formik.errors.customerName) && (
@@ -124,7 +135,7 @@ const AddInvoice: React.FC = () => {
               value={formik.values.customerAddress}
               onBlur={formik.handleBlur}
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Ha noi"
+              placeholder="Nhập địa chỉ"
             />
             {formik.touched.customerAddress &&
               Boolean(formik.errors.customerAddress) && (
@@ -144,7 +155,7 @@ const AddInvoice: React.FC = () => {
               value={formik.values.customerPhoneNumber}
               onBlur={formik.handleBlur}
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Number"
+              placeholder="Nhập số điện thoại"
             />
             {formik.touched.customerPhoneNumber &&
               Boolean(formik.errors.customerPhoneNumber) && (
@@ -162,7 +173,7 @@ const AddInvoice: React.FC = () => {
               value={formik.values.customerTextCode}
               onBlur={formik.handleBlur}
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="09"
+              placeholder="Nhập mã số thuế"
             />
             {formik.touched.customerTextCode &&
               Boolean(formik.errors.customerTextCode) && (
@@ -182,7 +193,7 @@ const AddInvoice: React.FC = () => {
               value={formik.values.customerAccountNumber}
               onBlur={formik.handleBlur}
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder=""
+              placeholder="Nhập số tài khoản"
             />
             {formik.touched.customerAccountNumber &&
               Boolean(formik.errors.customerAccountNumber) && (
@@ -195,19 +206,15 @@ const AddInvoice: React.FC = () => {
             <label className="block mb-2 text-sm font-medium">
               Hình thức thanh toán
             </label>
-            <Input
-              type="text"
+            <select
+              onChange={onSelectPaymentMethod}
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name=""
               id="paymentMethod"
-              onChange={formik.handleChange}
-              value={formik.values.paymentMethod}
-              onBlur={formik.handleBlur}
-              className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder=""
-            />
-            {formik.touched.paymentMethod &&
-              Boolean(formik.errors.paymentMethod) && (
-                <ErrorMessage message={formik.errors.paymentMethod as string} />
-              )}
+            >
+              <option value="Chuyển khoản">Chuyển khoản</option>
+              <option value="Tiền mặt">Tiền mặt</option>
+            </select>
           </div>
         </div>
 

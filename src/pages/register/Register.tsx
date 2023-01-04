@@ -67,7 +67,7 @@ const Register: React.FC = () => {
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
           <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
             <h1 className="text-3xl font-semibold text-center text-blue-700">
-              Register
+              Đăng kí
             </h1>
             <form onSubmit={formik.handleSubmit} className="mt-6">
               <div className="mb-2">
@@ -75,7 +75,7 @@ const Register: React.FC = () => {
                   htmlFor="name"
                   className="block text-sm font-semibold text-gray-800"
                 >
-                  Name
+                  Tên đầy đủ
                 </label>
                 <Input
                   type="name"
@@ -115,7 +115,7 @@ const Register: React.FC = () => {
                   htmlFor="password"
                   className="block text-sm font-semibold text-gray-800"
                 >
-                  Password
+                  Mật khẩu
                 </label>
                 <Input
                   type="password"
@@ -136,7 +136,7 @@ const Register: React.FC = () => {
                   htmlFor="rePassword"
                   className="block text-sm font-semibold text-gray-800"
                 >
-                  Rematch Password
+                  Nhập lại mật khẩu
                 </label>
                 <Input
                   type="password"
@@ -156,18 +156,18 @@ const Register: React.FC = () => {
               </div>
 
               <NavLink to="#" className="text-xs text-blue-600 hover:underline">
-                Forget Password?
+                Quên mật khẩu?
               </NavLink>
               <div className="mt-6">
                 <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                  Register
+                  Đăng kí
                 </button>
               </div>
             </form>
 
             <p className="mt-8 text-xs font-light text-center text-gray-700">
               {" "}
-              Have an account?{" "}
+              Đã có tài khoản?{" "}
               <NavLink
                 to="/login"
                 className="font-medium text-blue-600 hover:underline"
