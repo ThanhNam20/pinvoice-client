@@ -195,13 +195,13 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
 
             {!record.isRelease && (
               <>
-                <Typography.Link
+                {/* <Typography.Link
                   disabled={editingKey !== ""}
                   onClick={() => edit(record)}
                   style={{ paddingRight: 10 }}
                 >
                   Chỉnh sửa
-                </Typography.Link>
+                </Typography.Link> */}
                 <Typography.Link
                   disabled={editingKey !== ""}
                   onClick={() => releaseInvoice(record)}

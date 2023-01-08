@@ -73,7 +73,7 @@ const Login: React.FC = () => {
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
           <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
             <h1 className="text-3xl font-semibold text-center text-blue-700">
-              Sign in
+              Đăng nhập
             </h1>
             <form onSubmit={formik.handleSubmit} className="mt-6">
               <div className="mb-2">
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
                   htmlFor="password"
                   className="block text-sm font-semibold text-gray-800"
                 >
-                  Password
+                  Mật khẩu
                 </label>
                 <Input
                   type="password"
@@ -117,23 +117,23 @@ const Login: React.FC = () => {
                 )}
               </div>
               <NavLink to="#" className="text-xs text-blue-600 hover:underline">
-                Forget Password?
+                Quên mật khẩu
               </NavLink>
               <div className="mt-6">
                 <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                  Login
+                  Đăng nhập
                 </button>
               </div>
             </form>
 
             <p className="mt-8 text-xs font-light text-center text-gray-700">
               {" "}
-              Don't have an account?{" "}
+              Chưa có tài khoản?{" "}
               <NavLink
                 to="/register"
                 className="font-medium text-blue-600 hover:underline"
               >
-                Sign up
+                Đăng kí
               </NavLink>
             </p>
           </div>
