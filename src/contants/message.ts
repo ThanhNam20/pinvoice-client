@@ -16,5 +16,6 @@ export const TOAST_MESSAGE = {
   SOME_THING_WENT_WRONG: "Something when wrong, please check again.",
   CREATE_INVOICE_SUCCESSFULLY: "Tạo hoá đơn thành công.",
   SIGN_INVOICE_SUCCESSFULLY: "Kí số hoá đơn thành công.",
+  SEND_INVOICE_TO_CLIENT: "Gửi hoá đơn thành công."
 };
 

@@ -1,23 +1,21 @@
-import React, { useState } from "react";
-import "./styles.css";
-import { authService } from "../../services/auth.service";
-import { Field, useFormik } from "formik";
-import { Divider, Form, Input, Spin } from "antd";
-import { toast } from "react-toastify";
-import { IRegister } from "types/Auth";
-import { useAppDispatch } from "store/hooks";
-import { userActions } from "../../store/slices/userSlice";
+import { Input, Spin } from "antd";
 import ErrorMessage from "components/ErrorMessage";
-import { registerValidation } from "./register.valdation";
-import { RegisterDto } from "../../types/RegisterDto";
-import { localStorageService } from "services/localstorage.service";
-import { LOCALSTORAGE_KEY } from "contants/message";
-import { NavLink, useNavigate } from "react-router-dom";
 import ModalComponent from "components/Modal.component";
+import { LOCALSTORAGE_KEY } from "contants/message";
+import { useFormik } from "formik";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import { localStorageService } from "services/localstorage.service";
+import { useAppDispatch } from "store/hooks";
+import { authService } from "../../services/auth.service";
+import { userActions } from "../../store/slices/userSlice";
+import { RegisterDto } from "../../types/RegisterDto";
+import { registerValidation } from "./register.valdation";
+import "./styles.css";
 
 const Register: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -172,7 +170,7 @@ const Register: React.FC = () => {
                 to="/login"
                 className="font-medium text-blue-600 hover:underline"
               >
-                Sign in
+                Đăng nhập
               </NavLink>
             </p>
           </div>

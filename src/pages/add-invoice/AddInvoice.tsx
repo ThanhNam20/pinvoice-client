@@ -35,6 +35,8 @@ const AddInvoice: React.FC = () => {
       customerPhoneNumber: "",
       customerTextCode: "",
       customerAccountNumber: "",
+      customerEmail: "",
+      note: ""
     },
     validationSchema: addInvoiceValidation,
     onSubmit: (values: any) => {
@@ -126,6 +128,26 @@ const AddInvoice: React.FC = () => {
                 <ErrorMessage message={formik.errors.customerName as string} />
               )}
           </div>
+
+          <div>
+            <label className="block mb-2 text-sm font-medium">
+              Email khách hàng
+            </label>
+            <Input
+              type="text"
+              id="customerEmail"
+              onChange={formik.handleChange}
+              value={formik.values.customerEmail}
+              onBlur={formik.handleBlur}
+              className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Email"
+            />
+            {formik.touched.customerEmail &&
+              Boolean(formik.errors.customerEmail) && (
+                <ErrorMessage message={formik.errors.customerEmail as string} />
+              )}
+          </div>
+
           <div>
             <label className="block mb-2 text-sm font-medium">Địa chỉ</label>
             <Input
@@ -199,6 +221,26 @@ const AddInvoice: React.FC = () => {
               Boolean(formik.errors.customerAccountNumber) && (
                 <ErrorMessage
                   message={formik.errors.customerAccountNumber as string}
+                />
+              )}
+          </div>
+          <div>
+            <label className="block mb-2 text-sm font-medium">
+              Ghi chú
+            </label>
+            <Input
+              type="text"
+              id="note"
+              onChange={formik.handleChange}
+              value={formik.values.note}
+              onBlur={formik.handleBlur}
+              className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Ghi chú phía khách hàng"
+            />
+            {formik.touched.note &&
+              Boolean(formik.errors.note) && (
+                <ErrorMessage
+                  message={formik.errors.note as string}
                 />
               )}
           </div>

@@ -16,4 +16,5 @@ export interface Invoice {
   releaseDate?: string;
   isRelease: boolean;
   releaseStatus?: string;
+  customerEmail?: string;
 }

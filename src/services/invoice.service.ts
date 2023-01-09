@@ -36,6 +36,17 @@ const seeInvoice = (id: string): any => {
   return axios(config);
 };
 
+const sendInvoiceToClient =  (invoiceId: string): any => {
+  const config = {
+    url: `v1/invoices/send-invoice`,
+    method: "post",
+    data: {
+      invoiceId
+    },
+  };
+  return axios(config);
+};
+
 const releaseInvoice = (
   id: string,
   file: File,
@@ -59,4 +70,5 @@ export const invoiceService = {
   seeInvoice,
   releaseInvoice,
   getInvoiceById,
+  sendInvoiceToClient
 };

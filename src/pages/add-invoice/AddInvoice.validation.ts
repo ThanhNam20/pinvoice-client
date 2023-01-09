@@ -5,4 +5,6 @@ export const addInvoiceValidation = Yup.object({
   customerPhoneNumber: Yup.string().required("This field is required"),
   customerTextCode: Yup.string().required("This field is required"),
   customerAccountNumber: Yup.string().required("This field is required"),
+  customerEmail: Yup.string().required("This field is required"),
+  note: Yup.string().required("This field is required"),
 });

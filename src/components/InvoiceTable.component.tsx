@@ -1,5 +1,7 @@
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
+import { TOAST_MESSAGE } from "contants/message";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { invoiceService } from "services/invoice.service";
 import { Invoice } from "types/Invoice";
 import ReleaseInvoiceModal from "./ReleaseInvoiceModal.component";
@@ -65,7 +67,7 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
     listInvoices[0]
   );
 
-  useEffect(() => {}, [props]);
+  useEffect(() => { }, [props]);
 
   const edit = (record: Partial<Invoice> & { id: React.Key }) => {
     form.setFieldsValue({
@@ -95,6 +97,23 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
       );
     }
   };
+
+  const sendInvoice = async (invoice: Invoice) => {
+    try {
+      const response = await invoiceService.sendInvoiceToClient(
+        invoice.id
+      );
+      if (response) {
+        toast.success(TOAST_MESSAGE.SEND_INVOICE_TO_CLIENT, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      toast.error(TOAST_MESSAGE.SOME_THING_WENT_WRONG, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } finally { }
+  }
 
   const releaseInvoice = (invoice: Invoice) => {
     setSelectedInvoice(invoice);
@@ -192,6 +211,16 @@ const InvoiceTableComponent = (props: InvoiceTableProps) => {
             >
               Xem
             </Typography.Link>
+
+            {record.isRelease && (
+              <Typography.Link
+                disabled={editingKey !== ""}
+                onClick={() => sendInvoice(record)}
+                style={{ paddingRight: 10 }}
+              >
+                Gửi khách hàng
+              </Typography.Link>
+            )}
 
             {!record.isRelease && (
               <>
