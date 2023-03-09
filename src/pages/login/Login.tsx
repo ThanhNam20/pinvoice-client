@@ -1,6 +1,8 @@
 import { Input, Spin } from "antd";
 import ErrorMessage from "components/ErrorMessage";
 import ModalComponent from "components/Modal.component";
+import SEOComponent from "components/SEO.component";
+import { STATIC_PAGE_SEO } from "contants/const";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -69,6 +71,7 @@ const Login: React.FC = () => {
 
   return (
     <div>
+          <SEOComponent {...STATIC_PAGE_SEO.LOGIN}/>
       <Spin size="large" spinning={loading}>
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
           <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">

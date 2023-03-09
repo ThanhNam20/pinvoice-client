@@ -21,3 +21,24 @@ export const PAGINATION = {
   LIMIT: 500,
   PAGE: 1
 }
+
+export const STATIC_PAGE_SEO = {
+  HOMEPAGE: {
+    title: 'Pinvoice',
+    description: 'Let go for create invoice',
+    name: 'Hello from no where',
+    type: 'HEHEHE'
+  },
+  LOGIN: {
+    title: 'Login',
+    description: 'Login',
+    name: 'Login page',
+    type: 'HHH'
+  },
+  REGISTER: {
+    title: 'Register',
+    description: 'Register',
+    name: 'Register page',
+    type: 'HHH'
+  }
+}

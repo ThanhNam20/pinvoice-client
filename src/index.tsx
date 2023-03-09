@@ -9,6 +9,8 @@ import { BrowserRouter } from "react-router-dom";
 import interceptor from './interceptor';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { HelmetProvider } from "react-helmet-async";
+
 
 interceptor();
 const container = document.getElementById("root")!;
@@ -16,12 +18,14 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+    <HelmetProvider>
     <Provider store={store}>
       <BrowserRouter>
         <App />
         <ToastContainer />
       </BrowserRouter>
     </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

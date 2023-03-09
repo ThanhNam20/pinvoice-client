@@ -11,6 +11,9 @@ import { LOCALSTORAGE_KEY } from "contants/message";
 import { useAppSelector } from "store/hooks";
 import { userSelector } from "store/slices/userSlice";
 import Footer from "components/Footer.component";
+import SEOComponent from "components/SEO.component";
+import { STATIC_PAGE_SEO } from "contants/const";
+
 
 const Home: React.FC = () => {
   const userSelectorData = useAppSelector(userSelector);
@@ -27,6 +30,7 @@ const Home: React.FC = () => {
   const location = useLocation();
   return (
     <>
+      <SEOComponent {...STATIC_PAGE_SEO.HOMEPAGE}/>
       <Header isAuthenticated={isAuthenticated} url={location.pathname} />
       <Outlet />
       <Footer />
